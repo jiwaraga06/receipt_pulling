@@ -16,25 +16,30 @@ class ReceivePullingInsertCubit extends Cubit<ReceivePullingInsertState> {
     var nik = pref.getString('scan');
     var shift = pref.getString('shift');
     var body = {
-      'nik': nik,
-      'sift': shift,
-      'box_number': box_number,
-      'qty_receive': qty_receive,
-      'qty_repair': qty_repair,
-      'qty_ng': qty_ng,
-      'work_center': work_center,
-      'work_order': work_order,
-      'wopl_oid': wopl_oid,
+      'nik': '$nik',
+      'sift': '$shift',
+      'box_number': '$box_number',
+      'qty_receive': '$qty_receive',
+      'qty_repair': '$qty_repair',
+      'qty_ng': '$qty_ng',
+      'work_center': '$work_center',
+      'work_order': '$work_order',
+      'wopl_oid': '$wopl_oid',
     };
     print(body);
     emit(ReceivePullingInsertLoading());
     myRepository!.receiveSave(body).then((value) {
-      var json = jsonDecode(value.body);
-      print('RECEIVE SAVE: $json');
-      if (json['staus'] == 'error') {
-        emit(ReceivePullingInsertLoaded(json: json, statusCode: 400));
+      print('RECEIVE SAVE: ${value.body}');
+      print('RECEIVE SAVE: ${value.statusCode}');
+      if (value.statusCode == 200) {
+        var json = jsonDecode(value.body);
+        if (json['status'] == 'error') {
+          emit(ReceivePullingInsertLoaded(json: json, statusCode: 400));
+        } else {
+          emit(ReceivePullingInsertLoaded(json: json, statusCode: 200));
+        }
       } else {
-        emit(ReceivePullingInsertLoaded(json: json, statusCode: 200));
+        emit(ReceivePullingInsertLoaded(json: {'msg': 'error ${value.statusCode}}'}, statusCode: value.statusCode));
       }
     });
   }

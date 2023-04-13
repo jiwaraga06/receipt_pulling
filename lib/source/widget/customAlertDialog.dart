@@ -9,7 +9,6 @@ class MyAlertDialog {
       animType: AnimType.bottomSlide,
       title: 'Alert !',
       desc: message,
-      btnCancelOnPress: () {},
       btnOkOnPress: () {},
     )..show();
   }
@@ -21,7 +20,6 @@ class MyAlertDialog {
       animType: AnimType.bottomSlide,
       title: 'Success !',
       desc: message,
-      btnCancelOnPress: () {},
       btnOkOnPress: btnOkPressed,
     )..show();
   }

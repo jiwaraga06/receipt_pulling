@@ -80,7 +80,7 @@ class _InsertReceivePullingState extends State<InsertReceivePulling> {
                 BlocProvider.of<ReceivePullingCubit>(context).recevieGetCurrent();
                 Navigator.pop(context);
               });
-            } else if (statusCode == 400) {
+            } else {
               MyAlertDialog.warningDialog(context, json['msg']);
             }
           }
